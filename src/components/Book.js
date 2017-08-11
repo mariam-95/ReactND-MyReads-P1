@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Book = ({ shelf, thumbnail, title, authors, moveTo }) => (
+const Book = ({ shelf, thumbnail, moveTo }) => (
   <li>
     <div className="book">
       <div className="book-top">
@@ -23,10 +23,6 @@ const Book = ({ shelf, thumbnail, title, authors, moveTo }) => (
           </select>
         </div>
       </div>
-      <div className="book-title">{title}</div>
-      <div className="book-authors">
-        {authors ? authors.join(', ') : 'Unknown Author'}
-      </div>
     </div>
   </li>
 );
@@ -34,8 +30,6 @@ const Book = ({ shelf, thumbnail, title, authors, moveTo }) => (
 Book.proptypes = {
   shelf: PropTypes.string,
   thumbnail: PropTypes.string,
-  title: PropTypes.string,
-  authors: PropTypes.array,
   moveTo: PropTypes.func,
 }
 

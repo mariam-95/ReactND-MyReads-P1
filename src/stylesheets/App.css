@@ -1,29 +1,72 @@
-html, body, .root {
-  height: 100%;
-}
-body {
-  line-height: 1.5;
-}
-body, .app {
-  background: white;
-}
-
 /* main page */
+.list {
+  height: 100vh;
+}
 
 .list-books-title {
-  padding: 10px 0;
-  background: #2e7c31;
+  padding: 40px 0;
+  background: transparent;
   text-align: center;
 }
+
 .list-books-title h1 {
-  font-weight: 400;
+  font-size: 48px;
+  font-weight: 300;
+  letter-spacing: 0.75px;
   margin: 0;
   color: white;
 }
 
 .list-books-content {
-  padding: 0 0 80px;
-  flex: 1;
+  height: 55vh;
+  width: 55vw;
+  margin: 0 auto;
+  padding: 20px 80px;
+  overflow: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 0px;  /* remove scrollbar space */
+  background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+  background: #FF0000;
+}
+
+.list-books-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+}
+
+.list-books-control button {
+  height: 130px;
+  width: 140px;
+  margin: 20px 5px;
+  padding: 20px;
+  font-size: 18px;
+  line-height: 22px;
+  color: #535353;
+  background-color: rgba(255, 255, 255, 0.075);
+  border: 0;
+  border-radius: 8px;
+  outline: 0;
+}
+
+button:active,
+button:focus {
+  border: 0;
+  border-radius: 8px;
+  outline: 0;
+}
+
+.active-shelf {
+  color: #e5e5e5 !important;
 }
 
 .bookshelf {
@@ -39,26 +82,28 @@ body, .app {
 .bookshelf-title {
   border-bottom: 1px solid #dedede;
 }
+
 .bookshelf-books {
   text-align: center;
 }
 
 .open-search {
   position: fixed;
-  right: 25px;
-  bottom: 25px;
+  right: 50px;
+  bottom: 50px;
 }
+
 .open-search a {
   display: block;
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #2e7d32;
+  background: #49c94f;
   background-image: url('../icons/add.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 28px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2), 0 3px 6px rgba(0,0,0,0.23);
   font-size: 0;
 }
 
@@ -147,17 +192,18 @@ body, .app {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #60ac5d;
+  background: #49c94f;
   background-image: url('../icons/arrow-drop-down.svg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 20px;
+  background-size: 32px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 .book-shelf-changer select {
   width: 100%;
   height: 100%;
   opacity: 0;
+  font-size: 16px;
   cursor: pointer;
 }
 

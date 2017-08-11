@@ -12,10 +12,9 @@ class BookShelf extends Component {
   }
 
   render() {
-    const { title, books } = this.props;
+    const { books } = this.props;
     return (
       <div className="bookshelf">
-        <h2 className="bookshelf-title">{title}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
             {books.map((book, idx) => (
@@ -23,8 +22,6 @@ class BookShelf extends Component {
                 key={idx}
                 shelf={book.shelf}
                 thumbnail={book.imageLinks.thumbnail}
-                title={book.title}
-                authors={book.authors}
                 moveTo={ev => this.handleMove(ev, book)}
               />
             ))}
@@ -36,7 +33,6 @@ class BookShelf extends Component {
 }
 
 BookShelf.proptypes = {
-  title: PropTypes.string,
   books: PropTypes.array,
   refetchBooks: PropTypes.func,
 }
