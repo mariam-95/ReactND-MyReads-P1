@@ -1,57 +1,65 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import BookShelf from '../components/BookShelf';
-import * as BooksAPI from '../BooksAPI';
 
 export default class BookShelfContainer extends Component {
   state = {
-    selectedShelf: 'currentlyReading',
-    currentlyReading: [],
-    wantToRead: [],
-    read: [],
+    curShelf: 'currentlyReading',
+    isLoading: true,
   }
 
   componentDidMount() {
-    this.fetchBooks();
-  }
-
-  fetchBooks = () => {
-    BooksAPI.getAll().then(books => {
-      this.setState({
-        currentlyReading: books.filter(book => book.shelf === 'currentlyReading'),
-        wantToRead: books.filter(book => book.shelf === 'wantToRead'),
-        read: books.filter(book => book.shelf === 'read'),
-      });
-    });
+    setTimeout(() => this.setState({ isLoading: false }), 500);
   }
 
   chooseShelf = (ev) => {
-    this.setState({ selectedShelf: ev.target.value });
+    this.setState({ curShelf: ev.target.value });
   }
 
   isActiveShelf = (name) => {
-    return name === this.state.selectedShelf ? 'active-shelf' : '';
+    return name === this.state.curShelf ? 'active-shelf' : '';
   }
 
-  renderBookShelf = (title, books) => {
+  renderBookShelf = (books) => {
+    const _books = books.filter(book => book.shelf === this.state.curShelf);
     return (
       <BookShelf
-        books={books}
-        refetchBooks={this.fetchBooks}
+        books={_books}
+        moveTo={(book, shelf) => this.props.moveTo(book, shelf)}
       />
     )
   }
 
+  renderLoading = () => {
+    return (
+      <div className="spinner">
+        <div className="cube1"></div>
+        <div className="cube2"></div>
+      </div>
+    );
+  }
+
   render() {
-    const { selectedShelf } = this.state;
+    const { isLoading } = this.state;
+    const { books } = this.props;
     return (
       <div className="list">
+        <ToastContainer
+          toastClassName="dark-toast"
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnHover
+        />
         <div className="list-books">
           <div className="list-books-title">
             <h1>MyReads</h1>
           </div>
           <div className="list-books-content">
-            {this.renderBookShelf(selectedShelf, this.state[selectedShelf])}
+            {isLoading ? this.renderLoading() : this.renderBookShelf(books)}
           </div>
         </div>
         <div className="list-books-control">

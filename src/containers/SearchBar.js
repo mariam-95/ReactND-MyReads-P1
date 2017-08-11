@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Book from '../components/Book';
+import BookShelf from '../components/BookShelf';
 import * as BooksAPI from '../BooksAPI';
 
 export default class SearchBar extends Component {
@@ -9,23 +10,21 @@ export default class SearchBar extends Component {
   }
 
   handleSearch = (ev) => {
+    const { books } = this.props;
     const query = ev.target.value.trim();
     if (query) {
       BooksAPI.search(query, 20).then((results) => {
         if (results.length > 0) {
-          this.setState({
-            results: results.filter(book => book.imageLinks)
+          results = results.filter(res => res.imageLinks);
+          results = results.map(res => {
+            const idx = books.findIndex(book => book.id === res.id);
+            res["shelf"] = idx === -1 ? "none" : books[idx].shelf;
+            return res;
           });
+          this.setState({ results });
         }
       });
     }
-  }
-
-  handleMove = (ev, book) => {
-    const shelf = ev.target.value;
-    BooksAPI.update(book, shelf).then(() => {
-      this.props.history.push('/');
-    });
   }
 
   render() {
@@ -44,20 +43,18 @@ export default class SearchBar extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid">
-            {results.length > 0 && results.map((book, idx) => (
-              <Book
-                key={idx}
-                shelf="none"
-                thumbnail={book.imageLinks.thumbnail}
-                title={book.title}
-                authors={book.authors}
-                moveTo={ev => this.handleMove(ev, book)}
-              />
-            ))}
-          </ol>
+          {results.length > 0 &&
+            <BookShelf
+              books={results}
+              moveTo={(book, shelf) => this.props.moveTo(book, shelf)}
+            />}
         </div>
       </div>
     );
   }
+}
+
+SearchBar.propTypes = {
+  books: PropTypes.array,
+  moveTo: PropTypes.func,
 }

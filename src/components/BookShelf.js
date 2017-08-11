@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as BooksAPI from '../BooksAPI';
 import Book from './Book';
 
 class BookShelf extends Component {
-  handleMove = (ev, book) => {
-    const shelf = ev.target.value;
-    BooksAPI.update(book, shelf).then(() => {
-      this.props.refetchBooks();
-    });
-  }
-
   render() {
-    const { books } = this.props;
+    const { books, moveTo } = this.props;
     return (
       <div className="bookshelf">
         <div className="bookshelf-books">
@@ -22,7 +14,7 @@ class BookShelf extends Component {
                 key={idx}
                 shelf={book.shelf}
                 thumbnail={book.imageLinks.thumbnail}
-                moveTo={ev => this.handleMove(ev, book)}
+                moveTo={(shelf) => moveTo(book, shelf)}
               />
             ))}
           </ol>
@@ -32,9 +24,9 @@ class BookShelf extends Component {
   }
 }
 
-BookShelf.proptypes = {
+BookShelf.propTypes = {
   books: PropTypes.array,
-  refetchBooks: PropTypes.func,
+  moveTo: PropTypes.func,
 }
 
 export default BookShelf;
