@@ -298,3 +298,7 @@ button:focus {
 .transparent-progress{
   background:  rgba(255,255,255,.7);
 }
+
+.spacer-top {
+  margin-top: 50px;
+}

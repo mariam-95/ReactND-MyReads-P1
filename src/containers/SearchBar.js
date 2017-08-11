@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import BookShelf from '../components/BookShelf';
 import * as BooksAPI from '../BooksAPI';
 
@@ -43,6 +44,16 @@ export default class SearchBar extends Component {
           </div>
         </div>
         <div className="search-books-results">
+          <ToastContainer
+            className="spacer-top"
+            toastClassName="dark-toast"
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            pauseOnHover
+          />
           {results.length > 0 &&
             <BookShelf
               books={results}

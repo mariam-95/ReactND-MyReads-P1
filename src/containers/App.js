@@ -31,7 +31,8 @@ class BooksApp extends React.Component {
     BooksAPI.update(book, shelf).then(() => {
       this.fetchBooks();
       const shelfName = this.camel2title(shelf);
-      toast(`Moved "${book.title}" to ${shelfName}!`, {
+      const toastStr = shelf === "none" ? `Removed "${book.title}"!` : `Moved "${book.title}" to ${shelfName}!`;
+      toast(toastStr, {
         className: 'dark-toast',
         progressClassName: 'transparent-progress',
         autoClose: 5000
