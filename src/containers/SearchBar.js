@@ -37,6 +37,7 @@ export default class SearchBar extends Component {
           <div className="search-books-input-wrapper">
             <input
               type="text"
+              ref={input => input && input.focus()}
               placeholder="Search by title or author"
               onChange={this.handleSearch}
             />
