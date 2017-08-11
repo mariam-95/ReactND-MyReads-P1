@@ -9,10 +9,14 @@ export default class SearchBar extends Component {
   }
 
   handleSearch = (ev) => {
-    const query = ev.target.value;
+    const query = ev.target.value.trim();
     if (query) {
       BooksAPI.search(query, 20).then((results) => {
-        this.setState({ results });
+        if (results.length > 0) {
+          this.setState({
+            results: results.filter(book => book.imageLinks)
+          });
+        }
       });
     }
   }
@@ -40,7 +44,7 @@ export default class SearchBar extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {results && results.length > 0 && results.map((book, idx) => (
+            {results.length > 0 && results.map((book, idx) => (
               <Book
                 key={idx}
                 shelf="none"
