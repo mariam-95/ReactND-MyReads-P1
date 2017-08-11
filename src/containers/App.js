@@ -8,15 +8,11 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        <Route exact path="/" render={() => (
-          <BookShelfContainer />
-        )} />
-        <Route path="/search" render={() => (
-          <SearchBar />
-        )} />
+        <Route exact path="/" component={BookShelfContainer} />
+        <Route path="/search" component={SearchBar} />
       </div>
-    )
+    );
   }
 }
 
-export default BooksApp
+export default BooksApp;
