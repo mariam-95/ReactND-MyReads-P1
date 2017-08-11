@@ -5,16 +5,18 @@ import * as BooksAPI from '../BooksAPI';
 
 export default class BookShelfContainer extends Component {
   state = {
-    books: [],
     currentlyReading: [],
     wantToRead: [],
     read: [],
   }
 
   componentDidMount() {
+    this.fetchBooks();
+  }
+
+  fetchBooks = () => {
     BooksAPI.getAll().then(books => {
       this.setState({
-        books: books,
         currentlyReading: books.filter(book => book.shelf === 'currentlyReading'),
         wantToRead: books.filter(book => book.shelf === 'wantToRead'),
         read: books.filter(book => book.shelf === 'read'),
@@ -38,14 +40,17 @@ export default class BookShelfContainer extends Component {
           <BookShelf
             title="Currently Reading"
             books={currentlyReading}
+            refetchBooks={this.fetchBooks}
           />
           <BookShelf
             title="Want To Read"
             books={wantToRead}
+            refetchBooks={this.fetchBooks}
           />
           <BookShelf
             title="Read"
             books={read}
+            refetchBooks={this.fetchBooks}
           />
         </div>
         <div className="open-search">
