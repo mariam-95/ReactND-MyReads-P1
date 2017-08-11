@@ -1,28 +1,55 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Book from '../components/Book';
+import * as BooksAPI from '../BooksAPI';
 
 export default class SearchBar extends Component {
+  state = {
+    results: [],
+  }
+
+  handleSearch = (ev) => {
+    const query = ev.target.value;
+    if (query) {
+      BooksAPI.search(query, 20).then((results) => {
+        this.setState({ results });
+      });
+    }
+  }
+
+  handleMove = (ev, book) => {
+    const shelf = ev.target.value;
+    BooksAPI.update(book, shelf).then(() => {
+      this.props.history.push('/');
+    });
+  }
+
   render() {
+    const { results } = this.state;
     return (
       <div className="search-books">
         <div className="search-books-bar">
           <Link className="close-search" to="/" />
           <div className="search-books-input-wrapper">
-            {/*
-              NOTES: The search from BooksAPI is limited to a particular set of search terms.
-              You can find these search terms here:
-              https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-              However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-              you don't find a specific author or title. Every search is limited by search terms.
-            */}
-            <input type="text" placeholder="Search by title or author"/>
-
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              onChange={this.handleSearch}
+            />
           </div>
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            <li>blach</li>
+            {results && results.length > 0 && results.map((book, idx) => (
+              <Book
+                key={idx}
+                shelf="none"
+                thumbnail={book.imageLinks.thumbnail}
+                title={book.title}
+                authors={book.authors}
+                moveTo={ev => this.handleMove(ev, book)}
+              />
+            ))}
           </ol>
         </div>
       </div>

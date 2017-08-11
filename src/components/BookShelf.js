@@ -4,9 +4,9 @@ import * as BooksAPI from '../BooksAPI';
 import Book from './Book';
 
 class BookShelf extends Component {
-  moveTo = (ev, book) => {
+  handleMove = (ev, book) => {
     const shelf = ev.target.value;
-    BooksAPI.update(book, shelf).then((data) => {
+    BooksAPI.update(book, shelf).then(() => {
       this.props.refetchBooks();
     });
   }
@@ -25,7 +25,7 @@ class BookShelf extends Component {
                 thumbnail={book.imageLinks.thumbnail}
                 title={book.title}
                 authors={book.authors}
-                moveTo={ev => this.moveTo(ev, book)}
+                moveTo={ev => this.handleMove(ev, book)}
               />
             ))}
           </ol>
